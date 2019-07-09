@@ -38,9 +38,13 @@ def index():
 # true of "PORT", but it needs to be cast as an integer.
 # Debug = True will help us debug our code
 
+# NOTE!!!! Debug=True should be removed or be made "=False"??, before submitting
+# Project for assessment, or releasing to production in a work environment.
+# The variable __name__ will be = "__main__"
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
-    port = int(host=os.environ.get("PORT")),
+    port = int(os.environ.get("PORT")),
     debug=True)
     
     

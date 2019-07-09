@@ -7,3 +7,4 @@
 
 
 ##### Dont forget to include requirements.txt
+##### Change debug=True to debug=False before committing project for assessment.
