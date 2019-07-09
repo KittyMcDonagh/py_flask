@@ -5,9 +5,9 @@
 import os
 
 # small 'f' for first flask, capita'F' for 2nd Flask - the capital indicates a
-# class
+# class. Import render_template function for rendering pages in html
 
-from flask import Flask
+from flask import Flask, render_template
 
 # Create an instance of this class, and store it in a variable called "app"
 # Convention dictates that it be called "app"
@@ -27,11 +27,23 @@ app = Flask(__name__)
 
 # This route decorator wraps around the "index" function. The "/" indicates the
 # root directory. When we try to browse to it flask will trigger the "index"
-# function, which will return "Hello World"
+# function, which will return "Hello World". The href for 'home' in index.html
+# will be "/"
 
 @app.route("/")
 def index():
-    return "Hello World"
+    return render_template("index.html")
+    
+# This route decorator wraps around the about(). The href for the about page 
+# will be "/about"
+    
+@app.route("/about")
+def about():
+    return render_template("about.html")
+    
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
 
 # If name = main we will run our app with the following arguments:
 # "IP" is an internal variable set by Cloud9; os will get it for us. The same is
