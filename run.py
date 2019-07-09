@@ -44,6 +44,10 @@ def about():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+    
+@app.route("/careers")
+def careers():
+    return render_template("careers.html")
 
 # If name = main we will run our app with the following arguments:
 # "IP" is an internal variable set by Cloud9; os will get it for us. The same is
