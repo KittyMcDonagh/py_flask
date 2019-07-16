@@ -4,6 +4,9 @@
 
 import os
 
+# import json libary when using json data
+import json
+
 # small 'f' for first flask, capita'F' for 2nd Flask - the capital indicates a
 # class. Import render_template function for rendering pages in html
 
@@ -36,18 +39,35 @@ def index():
     
 # This route decorator wraps around the about(). The href for the about page 
 # will be "/about"
+# "page_title" (this could be any name) is a variable that will be passed to the
+# page
+# "list_of_numbers" = standard python list
     
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    
+    # Initialise an empty array
+    data = []
+    
+    # open the company.json file, read only
+    with open("data/company.json", "r") as json_data:
+        data = json.load(json_data)
+    
+    # return the company data to about.html
+    return render_template("about.html", page_title="About", company=data)
+    
+# "page_title" (this could be any name) is a variable that will be passed to the
+# page
     
 @app.route("/contact")
 def contact():
-    return render_template("contact.html")
-    
+    return render_template("contact.html", page_title="Contact")
+
+# "page_title" (this could be any name) is a variable that will be passed to the
+# page    
 @app.route("/careers")
 def careers():
-    return render_template("careers.html")
+    return render_template("careers.html", page_title="Careers")
 
 # If name = main we will run our app with the following arguments:
 # "IP" is an internal variable set by Cloud9; os will get it for us. The same is
