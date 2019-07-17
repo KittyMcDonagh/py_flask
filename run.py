@@ -7,10 +7,15 @@ import os
 # import json libary when using json data
 import json
 
-# small 'f' for first flask, capita'F' for 2nd Flask - the capital indicates a
-# class. Import render_template function for rendering pages in html
+# small 'f' for first flask, capital 'F' for 2nd Flask - the capital indicates a
+# class. 
+# Import render_template function for rendering pages in html
+# Import request function for handling things like what methods we used and it will also
+# contain our form object when we've posted it.
+# Import flash function to allow us to display non-permanent messages to the user.
+# These are called flashed messages in Flask
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash
 
 # Create an instance of this class, and store it in a variable called "app"
 # Convention dictates that it be called "app"
@@ -20,6 +25,12 @@ from flask import Flask, render_template
 # to look for templates and static files
 
 app = Flask(__name__)
+
+# To use flashed messages we need to use a secret key, because Flask 
+# cryptographically signs all of the messages for security. 
+# Generally in production the secret key would be kept private.
+
+app.secret_key ="some_secret"
 
 # Use the route decorator to tell Flask what URL should trigger the function
 # A decorator starts with the "@" sign, and is also called pie notation. A
@@ -56,11 +67,32 @@ def about():
     # return the company data to about.html
     return render_template("about.html", page_title="About", company=data)
     
+# We want to open a member page, when the member name is clicked on
+@app.route("/about/<member_name>")
+def about_member(member_name):
+    
+    with open("data/company.json", "r") as json_data:
+        data = json.load(json_data)
+        for obj in data:
+            if obj["url"] == member_name:
+                member = obj
+                
+# We want to open a member page, when the member name is clicked on
+    return render_template("member.html", member=member)
+    
 # "page_title" (this could be any name) is a variable that will be passed to the
 # page
-    
-@app.route("/contact")
+# We need to tell the view what methods we can use, to allow us to send a message
+
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+
+# The request function is imported above from flask
+# It knows what methods we use and contains an object of the form we post
+
+    if request.method == "POST":
+        flash("Thanks {}. We have received your message".format(request.form["name"]))
+    
     return render_template("contact.html", page_title="Contact")
 
 # "page_title" (this could be any name) is a variable that will be passed to the
